@@ -1,0 +1,101 @@
+
+
+networks:
+  default:
+
+volumes:
+  www-data:
+  matecat-storage:
+  mysql-data:
+
+services:
+
+  apache:
+    image: matecat-apache
+    container_name: matecat-apache
+    restart: unless-stopped
+    ports:
+      - ${APACHE_HTTP_PORT:-8080}:80
+      - ${APACHE_HTTPS_PORT:-8443}:443
+    environment:
+      - TZ=UTC
+      - CLI_HTTP_HOST=https://${HOSTNAME:-localhost}:${APACHE_HTTPS_PORT:-8443}
+      - COOKIE_DOMAIN=${HOSTNAME:-localhost}
+      - SSE_BASE_URL=${HOSTNAME:-localhost}:${APACHE_HTTPS_PORT:-8443}/sse
+      - SMTP_HOST=eu-sys-smtp.cerence.net
+      - SMTP_PORT=25
+      - SMTP_SENDER=no-reply-matecat@cerence.systems
+      - SMTP_HOSTNAME=localhost
+      - FILTERS_ADDRESS=http://filters:8732
+      - FILTERS_RAPIDAPI_KEY=
+      - STORAGE_DIR=/app/matecat/storage
+    volumes:
+      - www-data:/var/www/html
+      - matecat-storage:/home/matecat/storage
+      #- ./apache/conf/default-vhost.conf:/etc/apache2/sites-available/default-vhost.conf
+      #- ./apache/conf/443-matecat.conf:/etc/apache2/sites-available/443-matecat.conf
+    depends_on:
+      activemq:
+        condition: service_started
+      nodejs:
+        condition: service_started
+      mysql:
+        condition: service_started      
+      redis:
+        condition: service_healthy
+      filters:
+        condition: service_started      
+
+  redis:
+    image: matecat-redis
+    container_name: matecat-redis
+    restart: unless-stopped
+    expose:
+      - 6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      
+  mysql:
+    image: matecat-mysql
+    container_name: matecat-mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+    volumes:
+      - mysql-data:/var/lib/mysql
+    expose:
+      - 3306
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  nodejs:
+    image: matecat-nodejs
+    container_name: matecat-nodejs
+    restart: unless-stopped
+    expose:
+      - 7788 # sse
+    depends_on:
+      activemq:
+        condition: service_healthy
+
+  activemq:
+    image: matecat-activemq
+    container_name: matecat-activemq
+    restart: unless-stopped            
+    expose:
+      - 8161 # JMX
+      - 61613 # BROKER
+    ports:
+      - ${ACTIVE_MQ_GMX_PORT:-8161}:8161
+    healthcheck:
+      # "Worried" might be printed if the drive is running low on space.
+      test: ["CMD", "bash", "-c", "curl --silent -u admin:admin --show-error http://localhost:8161/api/jolokia/exec/org.apache.activemq:type=Broker,brokerName=localhost,service=Health/healthStatus | tee /dev/null | grep --silent 'Good\\|Worried'"]
+
+  filters:
+    image: matecat-filters
+    container_name: matecat-filters
+    restart: unless-stopped            
+    expose:
+      - 8732

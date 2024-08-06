@@ -1,0 +1,26 @@
+
+
+services:
+  apache:
+    build:
+      context: ./apache
+
+  redis:
+    build:
+      context: ./redis
+
+  mysql:
+    build:
+      context: ./mysql
+
+  nodejs:
+    build:
+      context: ./nodejs
+
+  activemq:
+    build:
+      context: ./activemq
+
+  filters:
+    build:
+      context: ./filters      
