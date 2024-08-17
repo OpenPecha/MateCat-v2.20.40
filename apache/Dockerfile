@@ -25,10 +25,8 @@ RUN openssl req -x509 -newkey rsa:4096 -keyout my_matecat.key -out my_matecat.cr
 
 RUN apt-get -y install git 
 
-COPY ../../.. /app/matecat
-
-#RUN git clone --branch v2.20.40 --depth 1  https://github.com/matecat/MateCat.git /app/matecat && \
-RUN cd /app/matecat/  && \
+RUN git clone --branch v2.20.40 --depth 1  https://github.com/matecat/MateCat.git /app/matecat && \
+    cd /app/matecat/  && \
     php -r "readfile('https://getcomposer.org/installer');" | php && \
     php composer.phar --no-dev install
 
@@ -37,7 +35,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     apt-get -y update && \
     apt-get -y install yarn
 
-#COPY ./matecat-conf/*.ini /app/matecat/inc/
+COPY ./matecat-conf/*.ini /app/matecat/inc/
 
 WORKDIR /app/matecat
 RUN yarn global add grunt-cli && \

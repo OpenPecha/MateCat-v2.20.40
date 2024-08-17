@@ -1,25 +1,26 @@
-# Matecat
-Matecat Official Repository. Matecat is an enterprise-level, web-based CAT tool designed to make post-editing and outsourcing easy and to provide a complete set of features to manage and monitor translation projects.
+# MateCat Docker
 
-## Installation
-See the complete installation guide here:
+A dockerized version of MateCat (https://www.matecat.com/) - The CAT tool designed to meet your needs.
 
-[http://site.matecat.com/installation-guide/](http://site.matecat.com/installation-guide/)
+The documentation might raise doubts about whether it is feasible to run MateCat in containers, but in reality, it is indeed possible.
 
-## Available scripts
+## How to use
 
-### `yarn format`
+```bash
+docker compose up -d
+```
 
-Format all supported files using [prettier](https://prettier.io/).
+To upload a file for translation, first sign up locally. After selecting 'Sign Up' from the top-right user icon, access the Apache Docker container by entering:
 
-### `yarn lint`
+```
+docker-compose exec apache /bin/bash
+```
+and display the mail queue log file:
 
-Lint JavaScript files using [eslint](https://eslint.org/).
+```
+cat storage/log_archive/mail_queue.log
+```
 
-### `yarn test`
-
-Run tests related to files changed since last commit in watch mode, thanks to [jest](https://jestjs.io/).
-
-### `yarn coverage`
-
-Run all the tests and collect the coverage information and report it, thanks to [jest](https://jestjs.io/).
+This will include the email body with the confirmation link.
+# matecat_final
+# matecat_v2.20.40
