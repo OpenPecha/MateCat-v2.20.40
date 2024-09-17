@@ -2,17 +2,22 @@
 
 A dockerized version of MateCat (https://www.matecat.com/) - The CAT tool designed to meet your needs.
 
-The documentation might raise doubts about whether it is feasible to run MateCat in containers, but in reality, it is indeed possible.
+
+## Prerequisites
+Ensure you have the following installed:
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+
 
 ## How to use
 
 
-To Deploy
+Deploying Matecat
 
 ```bash
 docker-compose up -d
 ```
-To Dev
+Developement Mode
 
 ```
 docker-compose watch
