@@ -27,13 +27,3 @@ and display the mail queue log file:
 ```
 cat storage/log_archive/mail_queue.log
 ```
-
-This will include the email body with the confirmation link.
-# matecat_final
-# matecat_v2.20.40
-# Matecat-Dev
-# Matecat-Dev
-# Matecat-Dev
-# Mate-cat-Dev
-# M2
-# M2
