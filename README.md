@@ -6,14 +6,21 @@ The documentation might raise doubts about whether it is feasible to run MateCat
 
 ## How to use
 
+
+To Deploy
+
 ```bash
-docker compose up -d
+docker-compose up -d
 ```
-
-To upload a file for translation, first sign up locally. After selecting 'Sign Up' from the top-right user icon, access the Apache Docker container by entering:
+To Dev
 
 ```
-docker-compose exec apache /bin/bash
+docker-compose watch
+```
+Volume Mounted at
+
+```
+/apache/app
 ```
 and display the mail queue log file:
 
@@ -24,3 +31,9 @@ cat storage/log_archive/mail_queue.log
 This will include the email body with the confirmation link.
 # matecat_final
 # matecat_v2.20.40
+# Matecat-Dev
+# Matecat-Dev
+# Matecat-Dev
+# Mate-cat-Dev
+# M2
+# M2

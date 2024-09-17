@@ -25,10 +25,14 @@ RUN openssl req -x509 -newkey rsa:4096 -keyout my_matecat.key -out my_matecat.cr
 
 RUN apt-get -y install git 
 
-RUN git clone --branch v2.20.40 --depth 1  https://github.com/matecat/MateCat.git /app/matecat && \
-    cd /app/matecat/  && \
+RUN mkdir -p /app/matecat
+
+COPY app /app/matecat
+
+RUN cd /app/matecat/  && \
     php -r "readfile('https://getcomposer.org/installer');" | php && \
     php composer.phar --no-dev install
+
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \

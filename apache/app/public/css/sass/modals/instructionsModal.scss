@@ -1,0 +1,68 @@
+.instructions-modal {
+  min-height: 230px;
+  max-width: 900px;
+  h2 {
+    padding-top: 16px;
+  }
+  span.fileFormat {
+    padding: 4px 5px 4px 47px;
+    background-size: 25px !important;
+    line-height: 25px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .ui.accordion {
+    max-height: 400px;
+    overflow: auto;
+    -webkit-box-shadow: unset;
+    box-shadow: unset;
+    border-radius: 0px;
+    margin-bottom: 20px;
+    .title {
+      display: flex;
+      align-items: center;
+      color: #666;
+      &:hover {
+        color: #000;
+      }
+      &.current {
+        &:hover {
+          background: #d9e0e8;
+          //color: #fff;
+        }
+        //color: #fff;
+        background: #dee4ea;
+        .current-icon {
+          display: block;
+          float: right;
+          margin-left: 10px;
+        }
+      }
+    }
+    .transition {
+      line-height: 25px;
+      padding-left: 72px;
+      p {
+        line-height: 26px;
+        word-break: break-all;
+      }
+    }
+  }
+  .instructions-container {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-height: 400px;
+    overflow: auto;
+    p {
+      line-height: 26px;
+      word-break: break-all;
+    }
+  }
+
+  .description {
+    margin: 10px 20px 0 20px;
+  }
+}
